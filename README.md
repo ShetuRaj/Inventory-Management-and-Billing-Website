@@ -30,6 +30,7 @@ You can let me know if you want to contribute to this project.
 - Sales Analysis
 - Stock Analysis
 - Generation of Bill in printable format
+- Passport Authentication
 
   
 ## Tech Stack
