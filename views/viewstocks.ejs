@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--Custom CSS-->
+    <link rel="stylesheet" href="styles.css">
+    <!--Semantic-UI CSS-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+    <title>View Stocks</title>
+  </head>
+  <body>
+     <!--Vertical Navbar-->
+  <div class="vertical-nav bg-white" id="sidebar">
+    <div class="py-4 px-3 mb-4" style="background: linear-gradient(to top, #0066eb 0%, #ff8ab3 68%);">
+      <div class="media d-flex align-items-center"><img src="admin.svg" alt="..." width="65" class="mr-3 rounded-circle img-thumbnail shadow-sm">
+        &emsp;<div class="media-body">
+          <h4 class="m-0"><p class="text-white"><shop-name></h4>
+            <p class="font-weight-light text-white mb-0">(Admin)</p>
+        </div>
+      </div>
+    </div>
+    <form action="/logout?_method=DELETE" method="POST">
+      <center><button type="submit" class="btn btn-danger" ><p class="text-white">Log Out</p></button></center>
+    </form>
+    <h5 class="ui horizontal divider header text-primary">
+      MAIN
+    </h5>
+  
+    <ul class="nav flex-column bg-white mb-0">
+      <li class="nav-item">
+        <a href="/" class="nav-link text-dark font-italic">
+                  <i class="home icon"></i>
+                  Dashboard
+              </a>
+      </li>
+      <li class="nav-item">
+        <a href="/billing" class="nav-link text-dark font-italic">
+          <i class="rupee sign icon"></i>
+                  Bill
+              </a>
+      </li>
+      <li class="nav-item">
+        <a href="/orders" class="nav-link text-dark font-italic">
+          <i class="eye icon"></i>
+                  View Orders
+              </a>
+      </li>
+      <li class="nav-item">
+        <a href="/viewstocks" class="nav-link text-dark font-italic" style="background: linear-gradient(to right, #0066eb 0%, #ff8ab3 68%);">
+          <p class="text-white"><i class="tags icon"></i>
+                  View Stocks
+                  </p>
+              </a>
+      </li>
+      <li class="nav-item">
+        <a href="/stocks" class="nav-link text-dark font-italic">
+          <i class="plus circle icon"></i>
+                  Add Stock
+              </a>
+      </li>
+    </ul>
+  
+    <h5 class="ui horizontal divider header text-primary">
+      CUSTOMIZE
+    </h5>
+  
+    <ul class="nav flex-column bg-white mb-0">
+      <li class="nav-item">
+        <a href="/brands" class="nav-link text-dark font-italic">
+          <i class="yelp icon"></i>
+                  Brand
+              </a>
+      </li>
+      <li class="nav-item">
+        <a href="/categories" class="nav-link text-dark font-italic">
+          <i class="bookmark icon"></i>
+                  Category
+              </a>
+      </li>
+      <li class="nav-item">
+        <a href="/sizes" class="nav-link text-dark font-italic">
+          <i class="check square icon"></i>
+                  Size
+              </a>
+      </li>
+    </ul>
+
+    <h5 class="ui horizontal divider header text-primary">
+      FILTERS
+    </h5>
+  
+    <ul class="nav flex-column bg-white mb-0">
+      <li class="nav-item">
+        <a href="/sales_filter" class="nav-link text-dark font-italic">
+          <i class="yelp icon"></i>
+                  Sales
+              </a>
+      </li>
+      <li class="nav-item">
+        <a href="/stock_filter" class="nav-link text-dark font-italic">
+          <i class="bookmark icon"></i>
+                  Stock
+              </a>
+      </li>
+    </ul>
+  </div>
+  <!-- End vertical navbar -->
+  
+  <!-- Page content holder -->
+  <div class="page-content p-5" id="content" style="background: linear-gradient(to right, #e9edf1 47%, #ff8ab3 100%);">
+    <!-- Toggle button -->
+    <button id="sidebarCollapse" type="button" class="btn btn-light bg-white rounded-pill shadow-sm px-4 mb-4"><i class="align justify icon"></i><small class="text-uppercase font-weight-bold">Menu</small></button>
+  
+    <!-- Page content -->
+    <h1>Stocks Summary</h1>
+    <br>
+    <center><img class="ui medium rounded image" src="stock.svg"></center>
+    <br>
+    <form action="stocks_query" method="POST">
+      <div class="ui four column grid">
+        <div class="row">
+        <div class="column">
+        <h3>View Stock By</h3>
+        </div>
+        
+        <div class="column">
+        <div class="form-check form-check-inline form-switch">
+             <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="brand" oninput="myFunction()">
+            <label class="form-check-label" for="exampleRadios2">
+                Brand
+            </label>
+        </div>
+        <div class="form-check form-check-inline form-switch">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="category" oninput="myFunction()">
+            <label class="form-check-label" for="exampleRadios3">
+                Category
+            </label>
+        </div>
+        </div>
+        <div class="column">
+            <select class="form-select" aria-label="Disabled select example" id="brand" name="selected_brand" disabled>
+                <option selected>Select Brand</option>
+                <% brands.forEach(function(order){ %>
+                  <option value="<%= order.Brand %>"><%= order.Brand %></option>
+                  <% }); %>
+              </select>
+        </div>
+        <div class="column">
+            <select class="form-select" aria-label="Disabled select example" id="category" name="selected_category" disabled>
+                <option selected>Select Category</option>
+                <% categories.forEach(function(order){ %>
+                  <option name="<%= order.Category %>" value="<%= order.Category %>"><%= order.Category %></option>
+                <% }); %>
+              </select>
+        </div>
+        </div>
+        </div>
+        <br>
+        <center>
+          <div class="ui left corner labeled action input">
+            <button class="ui teal button" type="submit">Search &emsp;</button>
+            <div class="ui corner label">
+              <i class="search icon"></i>
+            </div>
+          </div>
+        </center>
+      </form>
+    <% if(filter_type == 'None') { %>  
+    <table class="ui inverted violet table table-bordered">
+        <thead>
+        <tr>
+            <th>Item ID</th>
+            <th>Item Name</th>
+            <th>Category</th>
+            <th>Brand Name</th>
+            <th>Size</th>
+            <th>Amount</th>
+            <th>Date Entered</th>
+            <th>Time Entered</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% all_stocks.forEach(function(order){ %>
+            <tr style="background: linear-gradient(to left, #0066eb 0%, #ff8ab3 68%);">
+                <td><%= order.ItemID %>
+                <td><%= order.ItemName %></td>
+                <td><%= order.Category %></td>
+                <td><%= order.Brand %></td>
+                <td><%= order.Size %></td>
+                <td><%= order.Amount %></td>
+                <td><%= order.StockDate %></td>
+                <td><%= order.StockTime %>&emsp;<form action="/deletestock" method="POST"><input type="hidden" name="deleteid" value="<%= order.ItemID %>"><button type="submit" class="btn btn-danger btn-sm">Delete</button></form></td>
+                <!-- <form action="/deleteitem" method="POST"><input type="hidden" name="deleteid" value="<%= order.TransactionID %>"><button type="submit" class="btn btn-danger btn-sm">Delete</button></form> -->
+            </tr>
+        <% }); %>
+    </tbody>
+    </table>
+    <% } %> 
+
+    <% if(filter_type == 'brand') { %>
+      <br>  
+      <h2 class="text-primary">Showing Stocks for <%= filter_name %>  </h2>
+      <br>
+      <table class="ui inverted violet table table-bordered">
+          <thead>
+          <tr>
+              <th>Item ID</th>
+              <th>Item Name</th>
+              <th>Category</th>
+              <th>Brand Name</th>
+              <th>Size</th>
+              <th>Amount</th>
+              <th>Date Entered</th>
+              <th>Time Entered</th>
+          </tr>
+      </thead>
+      <tbody>
+          <% display_content.forEach(function(order){ %>
+              <tr style="background: linear-gradient(to left, #0066eb 0%, #ff8ab3 68%);">
+                  <td><%= order.ItemID %>
+                  <td><%= order.ItemName %></td>
+                  <td><%= order.Category %></td>
+                  <td><%= order.Brand %></td>
+                  <td><%= order.Size %></td>
+                  <td><%= order.Amount %></td>
+                  <td><%= order.StockDate %></td>
+                  <td><%= order.StockTime %>&emsp;<form action="/deletestock" method="POST"><input type="hidden" name="deleteid" value="<%= order.ItemID %>"><button type="submit" class="btn btn-danger btn-sm">Delete</button></form></td>
+                  <!-- <form action="/deleteitem" method="POST"><input type="hidden" name="deleteid" value="<%= order.TransactionID %>"><button type="submit" class="btn btn-danger btn-sm">Delete</button></form> -->
+              </tr>
+          <% }); %>
+      </tbody>
+      </table>
+      <% } %> 
+
+      <% if(filter_type == 'category') { %>
+        <br>  
+        <h2 class="text-primary">Showing Stocks for <%= filter_name %>  </h2>
+        <br>
+        <table class="ui inverted violet table table-bordered">
+            <thead>
+            <tr>
+                <th>Item ID</th>
+                <th>Item Name</th>
+                <th>Category</th>
+                <th>Brand Name</th>
+                <th>Size</th>
+                <th>Amount</th>
+                <th>Date Entered</th>
+                <th>Time Entered</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% display_content.forEach(function(order){ %>
+                <tr style="background: linear-gradient(to left, #0066eb 0%, #ff8ab3 68%);">
+                    <td><%= order.ItemID %>
+                    <td><%= order.ItemName %></td>
+                    <td><%= order.Category %></td>
+                    <td><%= order.Brand %></td>
+                    <td><%= order.Size %></td>
+                    <td><%= order.Amount %></td>
+                    <td><%= order.StockDate %></td>
+                    <td><%= order.StockTime %>&emsp;<form action="/deletestock" method="POST"><input type="hidden" name="deleteid" value="<%= order.ItemID %>"><button type="submit" class="btn btn-danger btn-sm">Delete</button></form></td>
+                    
+                </tr>
+            <% }); %>
+        </tbody>
+        </table>
+        <% } %> 
+
+    </div>
+    
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    <!-- Semnatic-UI Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"></script>
+
+    <script>
+      $(function() {
+    // Sidebar toggle behavior
+    $('#sidebarCollapse').on('click', function() {
+      $('#sidebar, #content').toggleClass('active');
+    });
+  });
+  
+    </script>
+
+<script>
+
+  function myFunction(){
+    if (document.getElementById('exampleRadios2').checked == true){
+      document.getElementById("brand").disabled = false;
+      document.getElementById("category").disabled = true;
+    }
+    if (document.getElementById('exampleRadios3').checked == true){
+      document.getElementById("brand").disabled = true;
+      document.getElementById("category").disabled = false;
+    }
+  }
+</script>
+  </body>
+</html>

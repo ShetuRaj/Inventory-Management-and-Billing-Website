@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--Custom CSS-->
+    <link rel="stylesheet" href="styles.css">
+    <!--Semantic-UI CSS-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <script src="https://unpkg.com/easyinvoice/dist/easyinvoice.min.js"></script>
+    <title>Bill</title>
+  </head>
+  <body>
+    <!--Vertical Navbar-->
+  <div class="vertical-nav bg-white" id="sidebar">
+    <div class="py-4 px-3 mb-4" style="background: linear-gradient(to top, #0066eb 0%, #ff8ab3 68%);">
+      <div class="media d-flex align-items-center"><img src="admin.svg" alt="..." width="65" class="mr-3 rounded-circle img-thumbnail shadow-sm">
+        &emsp;<div class="media-body">
+          <h4 class="m-0"><p class="text-white"><shop-name></h4>
+            <p class="font-weight-light text-white mb-0">(Admin)</p>
+        </div>
+      </div>
+    </div>
+    <form action="/logout?_method=DELETE" method="POST">
+      <center><button type="submit" class="btn btn-danger" ><p class="text-white">Log Out</p></button></center>
+    </form>
+    <h5 class="ui horizontal divider header text-primary">
+      MAIN
+    </h5>
+  
+    <ul class="nav flex-column bg-white mb-0">
+      <li class="nav-item">
+        <a href="/" class="nav-link text-dark font-italic">
+                  <i class="home icon"></i>
+                  Dashboard
+              </a>
+      </li>
+      <li class="nav-item">
+        <a href="/billing" class="nav-link text-dark font-italic" style="background: linear-gradient(to right, #0066eb 0%, #ff8ab3 68%);">
+          <p class="text-white"><i class="rupee sign icon"></i>
+                  Bill
+                  </p>
+              </a>
+      </li>
+      <li class="nav-item">
+        <a href="/orders" class="nav-link text-dark font-italic">
+          <i class="eye icon"></i>
+                  View Orders
+              </a>
+      </li>
+      <li class="nav-item">
+        <a href="/viewstocks" class="nav-link text-dark font-italic">
+          <i class="tags icon"></i>
+                  View Stocks
+              </a>
+      </li>
+      <li class="nav-item">
+        <a href="/stocks" class="nav-link text-dark font-italic">
+          <i class="plus circle icon"></i>
+                  Add Stock
+              </a>
+      </li>
+    </ul>
+  
+    <h5 class="ui horizontal divider header text-primary">
+      CUSTOMIZE
+    </h5>
+  
+    <ul class="nav flex-column bg-white mb-0">
+      <li class="nav-item">
+        <a href="/brands" class="nav-link text-dark font-italic">
+          <i class="yelp icon"></i>
+                  Brand
+              </a>
+      </li>
+      <li class="nav-item">
+        <a href="/categories" class="nav-link text-dark font-italic">
+          <i class="bookmark icon"></i>
+                  Category
+              </a>
+      </li>
+      <li class="nav-item">
+        <a href="/sizes" class="nav-link text-dark font-italic">
+          <i class="check square icon"></i>
+                  Size
+              </a>
+      </li>
+    </ul>
+
+    <h5 class="ui horizontal divider header text-primary">
+      FILTERS
+    </h5>
+  
+    <ul class="nav flex-column bg-white mb-0">
+      <li class="nav-item">
+        <a href="/sales_filter" class="nav-link text-dark font-italic">
+          <i class="yelp icon"></i>
+                  Sales
+              </a>
+      </li>
+      <li class="nav-item">
+        <a href="/stock_filter" class="nav-link text-dark font-italic">
+          <i class="bookmark icon"></i>
+                  Stock
+              </a>
+      </li>
+    </ul>
+  </div>
+  <!-- End vertical navbar -->
+  
+     <!-- Page content holder -->
+  <div class="page-content p-5" id="content" style="background: linear-gradient(to right, #e9edf1 47%, #ff8ab3 100%);">
+    <!-- Toggle button -->
+    <button id="sidebarCollapse" type="button" class="btn btn-light bg-white rounded-pill shadow-sm px-4 mb-4"><i class="align justify icon"></i><small class="text-uppercase font-weight-bold">Menu</small></button>
+  
+    <!-- Page content -->
+    <h1>Bill</h1>
+    <center><img class="ui small rounded image" src="creditcard.svg"></center>
+    <br>
+    <center><span class="btn btn-lg btn-primary btn_row_add_below_end">Add New Item <i class="shopping cart icon"></i></span></center>
+    <br>
+    <div class="ui fluid container">
+    <form action="/submitbill" method="POST">
+    <table class="ui inverted pink celled table celled tbl_code_with_mark" id="myTable">
+      <thead>
+        <tr style="background: linear-gradient(to left, #0066eb 0%, #ff8ab3 68%);">
+          <th>Item No.</th>
+          <th>Item ID</th>
+          <th>Item Name</th>
+          <th>Category</th>
+          <th>Brand</th>
+          <th>Size</th>
+          <th>Amount</th>
+          <th>Phone Number</th>
+        </tr>
+      </thead>
+      
+      <tbody>
+        
+        <tr>
+          <td class="table-info"><center><input type="text" id="number1" value=1 name="number1" style="border:0;outline:0" size="4" disabled/></center></td>
+          <td class="table-danger">
+            <div class="form-floating">
+            <input type="text" class="form-control" id="itemid1" name="itemid1"  size="4" required>
+            <label for="floatingInput">ID</label>
+            <button type="button" class="btn btn-outline-success" id="fetchitem1" onclick="fetchitem()">Get Item</button>
+            </div>
+        </td>
+          <td class="table-primary">
+            <div class="form-floating">
+              <input type="text" class="form-control" id="itemname1" name="itemname1" size="4" required >
+              <label for="floatingInput">Name</label>
+              
+          </div>
+          </td>
+          <td class="table-warning"> 
+            <div class="form-floating">
+              <select class="form-select" aria-label="Default select example" name="category1" id="category1" required > 
+                <% category.forEach(function(order){ %>
+                  <option name="<%= order.Category %>" value="<%= order.Category %>"><%= order.Category %></option>
+                <% }); %>
+            
+              </select>
+                <label for="floatingInput">Category</label>
+            </div>
+          </td>
+          <td class="table-warning">
+            <div class="form-floating">
+              <select class="form-select" aria-label="Default select example" name="brand1" id="brand1" required >
+                <% brand.forEach(function(order){ %>
+                <option value="<%= order.Brand %>"><%= order.Brand %></option>
+                <% }); %>
+           
+              </select>
+                <label for="floatingInput">Brand</label>
+            </div>
+          </td>
+          <td class="table-warning">
+            <div class="form-floating">
+              <select class="form-select" aria-label="Default select example" name="size1" id="size1" required >
+                <% size.forEach(function(order){ %>
+                  <option value="<%= order.Size %>"><%= order.Size %></option>
+                <% }); %>
+           
+              </select>
+              <label for="floatingInput">Size</label>
+            </div>
+          </td>
+          <td class="table-success"> 
+            <div class="form-floating">
+              <input type="number" class="form-control" id="amount1" name="amount1" value=0 min="0" max="99999" required>
+              <label for="floatingInput">Amount <i class="rupee sign icon"></i></label>
+              
+          </div>
+          </td>
+          <td class="table-primary">
+            <div class="form-floating">
+              <input type="text" class="form-control" id="customer1" name="customer1" size="4" required >
+              <label for="floatingInput">Phone<i class="phone volume icon"></i></label>
+            </div>
+          </td>
+        </tr>
+     
+        </tbody>
+        
+     
+        </table>
+        <center><button type="submit" class="ui teal submit button">Submit</button>
+          
+      </form>
+      
+      <button class="ui green submit button" type="button" onclick="downloadInvoice()">Download Bill</button></center>
+
+        <h4 class="ui horizontal divider header">
+          <i class="rupee sign icon"></i>
+         TOTAL CART VALUE
+        </h4>
+        <br>
+        <center>
+            <div class="card text-dark" style="width: 12rem;background: linear-gradient(to left, #0066eb 0%, #ff8ab3 68%);">
+              
+              <div class="card-body">
+                <div class="form-floating">
+                  <input type="number" class="form-control" id="total" name="total" value=0  required disabled>
+                  <label for="floatingInput">Total Amount</label>
+                
+              </div>
+              </div>
+            </div>
+        </center> 
+        
+    </div>
+    </div>
+    
+    
+    
+    <!-- Semnatic-UI Scripts -->
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"></script>
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+
+
+    <script>
+      $(document).ready(function($)
+      {
+        $(document).on('click',".btn_row_add_below_end", function(e)
+        {
+          var tableBody = $(document).find('.tbl_code_with_mark').find("tbody");
+          var trLast = tableBody.find("tr:last");
+          var trNew = trLast.clone();
+          var x = document.getElementById('myTable');
+          var len = x.rows.length;
+          trLast.after(trNew);
+         
+        
+          var inputs = document.getElementsByTagName("input");
+          var flag1=flag2=1;
+          for (var i = 0; i < inputs.length; i++) {
+
+            if(inputs[i].id != 'total'){
+          
+            inputs[i].id = (inputs[i].id).replace(/\d+/g, '')
+            inputs[i].name = (inputs[i].name).replace(/\d+/g, '')
+            inputs[i].id = inputs[i].id + (flag1).toString();
+            inputs[i].name = inputs[i].name + (flag1).toString();
+            if(flag2%5==0)
+            {
+              flag1++;
+            }
+            flag2++;
+            
+          }
+          }
+          var count = 0
+          for (var i = 0; i < inputs.length; i++) {
+            if((inputs[i].id).includes("number")){
+              // console.log(`Item Name = ${inputs[i]}`)
+              // console.log(`Before value = ${inputs[i].value}`)
+              inputs[i].value = count + 1
+              // console.log(`After value = ${inputs[i].value}`)
+              count++;
+            }
+          }
+
+          for (var i = 0; i < inputs.length; i++) {
+            if(inputs[i].id != 'total'){
+            if((inputs[i].id).includes(len.toString()) && !((inputs[i].id).includes("number")) ){
+              inputs[i].value = ""
+              inputs[i].innerText = ""
+            }
+          }
+          }
+
+          console.log(inputs)
+
+          selects = document.getElementsByTagName("select");
+          var flag1=flag2=1;
+          for (var i = 0; i < selects.length; i++) {
+            selects[i].id = (selects[i].id).replace(/\d+/g, '')
+            selects[i].name= (selects[i].name).replace(/\d+/g, '')
+            selects[i].id = selects[i].id + (flag1).toString()
+            selects[i].name = selects[i].name + (flag1).toString();
+            if(flag2%3==0)
+            {
+              flag1++;
+            }
+            flag2++;
+          }
+          console.log(selects)
+          buttons = document.getElementsByTagName("button");
+          var flag1=1;
+          for(var i = 0; i < buttons.length; i++) {
+            if((buttons[i].id).includes("fetchitem")){
+            buttons[i].id = (buttons[i].id).replace(/\d+/g, '')
+            buttons[i].name= (buttons[i].name).replace(/\d+/g, '')
+            buttons[i].id = buttons[i].id + (flag1).toString()
+            buttons[i].name = buttons[i].name + (flag1).toString();
+              flag1++;
+          
+          }
+        }
+        });
+      });
+    </script>
+    <script>
+      function fetchitem() {
+      console.log('fetch button called')
+      var buttons = document.getElementsByTagName("button");
+      button_num = ""
+      for(var i = 0; i < buttons.length; i++) {
+        if((buttons[i].id).includes("fetchitem")){
+            button_id = buttons[i].id
+            console.log(buttons[i])
+            console.log(buttons[i].id)
+            button_num = (button_id.match(/(\d+)/))[0]
+            console.log(button_num)
+        }
+      }
+      console.log(buttons)
+      var inputs = document.getElementsByTagName("input");
+      var pass_item = ""
+      for (var i = 0; i < inputs.length; i++) {
+            input_id = inputs[i].id
+            if((inputs[i].id).includes("itemid") && ((input_id.charAt(input_id.length-1)) == button_num)){
+              pass_item = inputs[i]
+              console.log(pass_item)
+            }
+          }
+          console.log(inputs)
+    $.ajax({
+        type: "POST",
+        url: "/fetchitem",
+        data: {
+            "itemid": pass_item.value
+        },
+        success: function(data) {
+          // console.log('Fetched Data')
+            if(data.status == 200) {
+                
+                x = data.rows
+                var inputs = document.getElementsByTagName("input");
+                itemname_id = "itemname" + button_num
+                amount_id = "amount" + button_num
+                category_id = "category" + button_num
+                brand_id = "brand" + button_num
+                size_id = "size" + button_num
+               
+                for (var i = 0; i < inputs.length; i++) {
+                  if(inputs[i].id == itemname_id){
+                    
+                  inputs[i].value = x[0].ItemName
+                  // console.log(x['ItemName'])
+                  }
+                  if(inputs[i].id == amount_id){
+                  inputs[i].value = x[0].Amount
+                  // console.log(x.Amount)
+                  }
+                }
+                var total_amount = 0
+                for (var i = 0; i < inputs.length; i++) {
+                 
+                  if((inputs[i].id).includes("amount")){
+                    total_amount = total_amount + parseInt(inputs[i].value)
+                  // console.log(x.Amount)
+                  }
+                }
+                // console.log(total_amount)
+                for (var i = 0; i < inputs.length; i++) {
+                  if(inputs[i].id == 'total')
+                  inputs[i].value = total_amount
+                }
+                
+                // console.log(inputs)
+                // alert("successfully fetched!")
+
+              var selects = document.getElementsByTagName("select");
+              for (var i = 0; i < selects.length; i++) {
+                  if(selects[i].id == category_id){
+                    
+                  selects[i].value = x[0].Category
+                  
+                  }
+                  if(selects[i].id == brand_id){
+                  selects[i].value = x[0].Brand
+                 
+                  }
+                  if(selects[i].id == size_id){
+                  selects[i].value = x[0].Size
+                  
+                  }
+                }
+
+            } else if(data.status == "failed") {
+                alert("failed authentication!")
+            }
+        }
+    });
+}
+  </script>
+   <script>
+    $(function() {
+  // Sidebar toggle behavior
+  $('#sidebarCollapse').on('click', function() {
+    $('#sidebar, #content').toggleClass('active');
+  });
+});
+
+  </script>
+
+  <script>
+    function downloadInvoice() {
+  var data = getSampleData();
+  easyinvoice.createInvoice(data, function(result) {
+    var date_format = new Date();
+    var bill_name = "SHW"+ date_format.getDate() + date_format.getMonth() + date_format.getFullYear() + date_format.getHours() + date_format.getMinutes() + date_format.getSeconds()
+    easyinvoice.download(`${bill_name}.pdf`, result.pdf);
+    //	you can download like this as well:
+    //	easyinvoice.download();
+    //	easyinvoice.download('myInvoice.pdf');
+  });
+}
+    function getSampleData() {
+  var date_format = new Date();
+  var transaction_time = date_format.getHours() + ':' + date_format.getMinutes() + ':' + date_format.getSeconds();
+  var transaction_date = date_format.getDate() + '/' + (parseInt(date_format.getMonth() + 1)).toString() + '/' + date_format.getFullYear();
+  var transaction_id = "SHW" + date_format.getDate() + date_format.getMonth() + date_format.getFullYear().toString().substr(-2) + date_format.getHours() + date_format.getMinutes() + date_format.getSeconds();
+  var item_names = document.getElementsByTagName('input')
+  var items_arr = []
+  for(var i=0; i<item_names.length; i++){
+    if((item_names[i].id).includes('itemname')){
+      var item_num = (item_names[i].id).charAt((item_names[i].id).length-1)
+      for(var j=0;j<item_names.length;j++){
+        if((item_names[j].id).includes('amount')){
+        var amount_num = (item_names[j].id).charAt((item_names[j].id).length-1)
+        if(item_num == amount_num){
+          let item_obj = {
+            "quantity": "1",
+            "description": item_names[i].value,
+            "tax": 0,
+            "price": item_names[j].value
+          }
+          console.log(item_obj)
+          items_arr.push(item_obj)
+        }
+      }
+      }
+
+    }
+  }
+  console.log(items_arr)
+  return {
+    //"documentTitle": "RECEIPT", //Defaults to INVOICE
+    "currency": "INR",
+    "taxNotation": "gst", //or gst
+    "marginTop": 25,
+    "marginRight": 25,
+    "marginLeft": 25,
+    "marginBottom": 25,
+    "logo": "https://i.pinimg.com/564x/47/7c/4c/477c4c269034cc0bc048409346ac83e9.jpg", //or base64
+    //"logoExtension": "png", //only when logo is base64
+    "sender": {
+      "company": "<shop-name>",
+      "address": "<shop-address>",
+      "zip": "<shop-zip>",
+      "city": "<shop-city>",
+      "country": "Mob. - <shop-owner-mobile-number>",
+       
+      "custom1": "GST No. - <shop-gst-no.>"
+      //"custom2": "custom value 2",
+      //"custom3": "custom value 3"
+    },
+
+    "invoiceNumber": transaction_id,
+    "invoiceDate": transaction_date,
+    "invoiceTime": transaction_time,
+    "products": items_arr,
+    "bottomNotice": "Thank You for shopping from <shop-name>. We are looking forward to your next visit !"
+  };
+}
+
+  </script>
+  </body>
+</html>

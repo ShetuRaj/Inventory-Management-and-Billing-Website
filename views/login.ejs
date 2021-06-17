@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Semantic UI CSS-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+    <title>Login</title>
+  </head>
+  <body style="background: linear-gradient(to bottom, #0066eb 0%, #ff8ab3 100%);">
+    
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="ui raised very padded text container segment"">
+      
+      <h1 class="fs-1 text-white" style="background: linear-gradient(to right, #0066eb 0%, #ff8ab3 68%);"><center><shop-name></center></h1>  
+      
+       <br>
+          <h3 class="card-title"><center>LOGIN to your account</center></h3>
+          
+          <% if (messages.error) {%>
+            <div class="alert alert-danger" role="alert">
+                <%= messages.error %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+              
+          <% } %>
+          <br>
+          <div class="ui two column grid">
+          <div class="row">
+            <div class="column">
+              <img class="ui medium image" src="lock.svg">
+            </div>
+          <div class="column">
+          <form action="/login" method="POST" class="ui large form">
+            <div class="field">
+              <div class="ui left icon input">
+                <i class="user icon"></i>
+                <input placeholder="Your email address" type="email" class="form-control" id="email" name="email" required>
+               </div> 
+              </div>
+              <div class="field">
+                <div class="ui left icon input">
+                  <i class="lock icon"></i>
+                <input placeholder="Your password" type="password" class="form-control" id="password" name="password" required>
+              </div>
+              </div>
+            
+            <br>
+            <button type="submit" class="ui fluid large teal submit button" style="background: linear-gradient(to right, #0066eb 0%, #ff8ab3 68%);">Login</button>
+        </form>
+      </div>
+    </div>
+  </div>
+        
+    </div>
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"></script>
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+
+    <script>
+        var alertList = document.querySelectorAll('.alert')
+        alertList.forEach(function (alert) {
+          new bootstrap.Alert(alert)
+        })
+    </script>
+  </body>
+</html>
+
