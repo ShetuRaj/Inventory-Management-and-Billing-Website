@@ -30,7 +30,7 @@ You can let me know if you want to contribute to this project.
 - Sales Analysis
 - Stock Analysis
 - Generation of Bill in printable format
-- Passport Authentication ([Tutotrial Link](https://www.youtube.com/watch?v=-RCnNyD0L-s))
+- Passport Authentication ([Tutorial Link](https://www.youtube.com/watch?v=-RCnNyD0L-s))
 
   
 ## Tech Stack
