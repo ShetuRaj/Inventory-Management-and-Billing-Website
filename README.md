@@ -30,7 +30,7 @@ You can let me know if you want to contribute to this project.
 - Sales Analysis
 - Stock Analysis
 - Generation of Bill in printable format
-- Passport Authentication
+- Passport Authentication ([Tutotrial Link](https://www.youtube.com/watch?v=-RCnNyD0L-s))
 
   
 ## Tech Stack
@@ -94,7 +94,22 @@ To run this project, you will need to add the following environment variables to
 `login_id=<login_email_address>`
 
 `login_password=<password_for_login>`
-  
 
+
+Here is an example:-
+
+`SESSION_SECRET=secret`
+
+`db_name=mysqldb`
+
+`db_user_name=root`
+
+`db_password=root1234`
+
+`login_id=admin@xyz.com`
+
+`login_password=admin1234`
+  
+In the `.env` file, don't use double quotes for values and there should be no space before or after `=` .
 
   
