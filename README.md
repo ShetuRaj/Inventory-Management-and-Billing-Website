@@ -95,7 +95,7 @@ Install dependencies
 ```
 
 
-Start the server
+Start the server (Please set up the environment variables before starting the server)
 
 ```bash
   npm run start
