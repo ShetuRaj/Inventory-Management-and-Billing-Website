@@ -76,6 +76,11 @@ Now open command prompt(as Administrator) and execute following commands
   
 ## Install node dependencies and run server locally
 
+Download and install **node** from here
+```bash
+  https://nodejs.org/en/download/
+```
+
 Clone the project (You can also download this project directly as a zip file by clicking on **Code** present on top of this page and then clicking **Download Zip**)
 
 ```bash
