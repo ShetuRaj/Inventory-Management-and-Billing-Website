@@ -76,7 +76,7 @@ Now open command prompt(as Administrator) and execute following commands
   
 ## Install node dependencies and run server locally
 
-Clone the project
+Clone the project (You can also download this project directly as a zip file by clicking on **Code** present on top of this page and then clicking **Download Zip**)
 
 ```bash
   git clone https://github.com/ShetuRaj/Inventory-Management-and-Billing-Website.git
