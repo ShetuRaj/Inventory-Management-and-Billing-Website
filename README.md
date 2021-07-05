@@ -104,7 +104,7 @@ Start the server (Please set up the environment variables before starting the se
   
 ## Environment Variables
 
-To run this project, you will need to add the following environment variables to your .env file (it should be present at the root of your project directory)
+To run this project, you will need to add the following environment variables to your `.env` file (Create a file named `.env` at the root of your project directory, i.e., in **Inventory-Management-and-Billing-Website** folder)
 
 ```bash
 SESSION_SECRET=secret
