@@ -40,7 +40,7 @@ You can let me know if you want to contribute to this project.
 **Server:** Node, Express
 
   
-## Run Locally
+## Install dependencies, configure MySQL database and run locally
 
 Clone the project
 
@@ -70,6 +70,16 @@ Configure MySQL
 
 ```bash
   https://www.youtube.com/watch?v=u96rVINbAUI
+```
+Download my sql database .sql file from here
+
+```bash
+  https://drive.google.com/file/d/1r0zaU-5Jzvf8aAqs4a-yiOMHxdkR5Y87/view?usp=sharing
+```
+Open mysql command line prompt and run the following commands:-
+
+```bash
+  create warehousedb
 ```
 
 Start the server
