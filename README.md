@@ -106,6 +106,12 @@ Start the server (Please set up the environment variables before starting the se
   npm run start
 ```
 
+Type this is your browser to open the local version of the website
+
+```bash
+  http://localhost:5000/
+```
+
   
 ## Environment Variables
 
